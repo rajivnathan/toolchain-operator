@@ -237,6 +237,8 @@ func InitOperator(t *testing.T) (*framework.Context, ToolchainAwaitility) {
 	namespace, err := ctx.GetNamespace()
 	require.NoError(t, err, "failed to get namespace where operator is running")
 
+	t.Logf("Test namespace: %s", namespace)
+
 	// get global framework variables
 	f := framework.Global
 	await := ToolchainAwaitility{

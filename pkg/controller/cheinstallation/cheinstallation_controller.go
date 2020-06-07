@@ -313,7 +313,7 @@ func (r *ReconcileCheInstallation) ensureCheClusterDeletion(logger logr.Logger, 
 			logger.Info("CheCluster already deleted", "CheCluster.Namespace", cheInstallation.Spec.CheOperatorSpec.Namespace, "CheCluster.Name", CheClusterName)
 			return false, nil
 		}
-		logger.Info("Unexpected error while creating a CheCluster for Che", "CheCluster.Namespace", cluster.Namespace, "CheCluster.Name", cluster.Name)
+		logger.Info("Unexpected error while deleting a CheCluster for Che", "CheCluster.Namespace", cluster.Namespace, "CheCluster.Name", cluster.Name)
 		return false, err
 	}
 	logger.Info("Deleting CheCluster for Che", "CheCluster.Namespace", cluster.Namespace, "CheCluster.Name", cluster.Name)

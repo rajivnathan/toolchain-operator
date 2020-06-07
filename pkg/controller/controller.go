@@ -1,14 +1,15 @@
 package controller
 
 import (
-	"github.com/codeready-toolchain/toolchain-operator/pkg/controller/cheinstallation"
-	"github.com/codeready-toolchain/toolchain-operator/pkg/controller/tektoninstallation"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
+
+	"github.com/codeready-toolchain/toolchain-operator/pkg/controller/toolchain"
 )
 
 func init() {
-	AddToManagerFuncs = append(AddToManagerFuncs, cheinstallation.Add)
-	AddToManagerFuncs = append(AddToManagerFuncs, tektoninstallation.Add)
+	// AddToManagerFuncs = append(AddToManagerFuncs, cheinstallation.Add)
+	// AddToManagerFuncs = append(AddToManagerFuncs, tektoninstallation.Add)
+	AddToManagerFuncs = append(AddToManagerFuncs, toolchain.Add)
 }
 
 // AddToManagerFuncs is a list of functions to add all Controllers to the Manager

@@ -6,24 +6,6 @@ metadata:
       [
         {
           "apiVersion": "toolchain.openshift.dev/v1alpha1",
-          "kind": "TektonInstallation",
-          "metadata": {
-            "name": "tekton-installation"
-          },
-          "spec": {},
-          "status": {
-            "conditions": [
-              {
-                "lastTransitionTime": "2019-12-16T09:20:19Z",
-                "reason": "Installed",
-                "status": "True",
-                "type": "TektonReady"
-              }
-            ]
-          }
-        },
-        {
-          "apiVersion": "toolchain.openshift.dev/v1alpha1",
           "kind": "CheInstallation",
           "metadata": {
             "name": "toolchain-cheinstallation"
@@ -40,6 +22,24 @@ metadata:
                 "reason": "Installed",
                 "status": "True",
                 "type": "CheReady"
+              }
+            ]
+          }
+        },
+        {
+          "apiVersion": "toolchain.openshift.dev/v1alpha1",
+          "kind": "TektonInstallation",
+          "metadata": {
+            "name": "tekton-installation"
+          },
+          "spec": {},
+          "status": {
+            "conditions": [
+              {
+                "lastTransitionTime": "2019-12-16T09:20:19Z",
+                "reason": "Installed",
+                "status": "True",
+                "type": "TektonReady"
               }
             ]
           }
@@ -96,6 +96,18 @@ spec:
       statusDescriptors:
       - description: 'Last known condition of the OpenShift Pipelines operator installation.
           Supported condition types: TektonReady'
+        displayName: Conditions
+        path: conditions
+        x-descriptors:
+        - urn:alm:descriptor:io.kubernetes.conditions
+      version: v1alpha1
+    - description: Toolchain defines which operators should be installed and how
+      displayName: CodeReady Toolchain
+      kind: Toolchain
+      name: toolchains.toolchain.openshift.dev
+      statusDescriptors:
+      - description: 'Last known condition of the OpenShift Pipelines operator installation.
+          Supported condition types: ToolchainReady'
         displayName: Conditions
         path: conditions
         x-descriptors:
@@ -205,8 +217,10 @@ spec:
           resources:
           - cheinstallations
           - tektoninstallations
+          - toolchains
           - cheinstallations/status
           - tektoninstallations/status
+          - toolchains/status
           verbs:
           - '*'
         - apiGroups:

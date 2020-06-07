@@ -13,7 +13,7 @@ LOCAL_TEST_NAMESPACE ?= "toolchain-operator"
 ## Run Operator locally
 up-local: login-as-admin create-namespace deploy-rbac build deploy-crd
 	$(Q)-oc new-project $(LOCAL_TEST_NAMESPACE) || true
-	$(Q)operator-sdk up local --namespace=$(APP_NAMESPACE) --verbose
+	$(Q)operator-sdk run --local --namespace=$(APP_NAMESPACE) --verbose
 
 .PHONY: login-as-admin
 ## Log in as system:admin

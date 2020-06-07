@@ -33,6 +33,9 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"github.com/codeready-toolchain/toolchain-operator/pkg/apis/toolchain/v1alpha1.TektonInstallation":       schema_pkg_apis_toolchain_v1alpha1_TektonInstallation(ref),
 		"github.com/codeready-toolchain/toolchain-operator/pkg/apis/toolchain/v1alpha1.TektonInstallationSpec":   schema_pkg_apis_toolchain_v1alpha1_TektonInstallationSpec(ref),
 		"github.com/codeready-toolchain/toolchain-operator/pkg/apis/toolchain/v1alpha1.TektonInstallationStatus": schema_pkg_apis_toolchain_v1alpha1_TektonInstallationStatus(ref),
+		"github.com/codeready-toolchain/toolchain-operator/pkg/apis/toolchain/v1alpha1.Toolchain":                schema_pkg_apis_toolchain_v1alpha1_Toolchain(ref),
+		"github.com/codeready-toolchain/toolchain-operator/pkg/apis/toolchain/v1alpha1.ToolchainSpec":            schema_pkg_apis_toolchain_v1alpha1_ToolchainSpec(ref),
+		"github.com/codeready-toolchain/toolchain-operator/pkg/apis/toolchain/v1alpha1.ToolchainStatus":          schema_pkg_apis_toolchain_v1alpha1_ToolchainStatus(ref),
 	}
 }
 
@@ -216,6 +219,113 @@ func schema_pkg_apis_toolchain_v1alpha1_TektonInstallationStatus(ref common.Refe
 						},
 						SchemaProps: spec.SchemaProps{
 							Description: "Last known condition of the OpenShift Pipelines operator installation. Supported condition types: TektonReady",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("github.com/codeready-toolchain/api/pkg/apis/toolchain/v1alpha1.Condition"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"github.com/codeready-toolchain/api/pkg/apis/toolchain/v1alpha1.Condition"},
+	}
+}
+
+func schema_pkg_apis_toolchain_v1alpha1_Toolchain(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "Toolchain defines which operators should be installed and how",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("github.com/codeready-toolchain/toolchain-operator/pkg/apis/toolchain/v1alpha1.ToolchainSpec"),
+						},
+					},
+					"status": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("github.com/codeready-toolchain/toolchain-operator/pkg/apis/toolchain/v1alpha1.ToolchainStatus"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"github.com/codeready-toolchain/toolchain-operator/pkg/apis/toolchain/v1alpha1.ToolchainSpec", "github.com/codeready-toolchain/toolchain-operator/pkg/apis/toolchain/v1alpha1.ToolchainStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+	}
+}
+
+func schema_pkg_apis_toolchain_v1alpha1_ToolchainSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ToolchainSpec defines the desired state of Toolchain",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"components": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"components"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/runtime.RawExtension"},
+	}
+}
+
+func schema_pkg_apis_toolchain_v1alpha1_ToolchainStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ToolchainStatus defines the observed state of Toolchain",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"conditions": {
+						VendorExtensible: spec.VendorExtensible{
+							Extensions: spec.Extensions{
+								"x-kubernetes-list-type":       "",
+								"x-kubernetes-patch-merge-key": "type",
+								"x-kubernetes-patch-strategy":  "merge",
+							},
+						},
+						SchemaProps: spec.SchemaProps{
+							Description: "Last known condition of the OpenShift Pipelines operator installation. Supported condition types: ToolchainReady",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{

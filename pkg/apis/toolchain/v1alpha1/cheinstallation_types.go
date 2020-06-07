@@ -78,6 +78,6 @@ type CheInstallationList struct {
 	Items           []CheInstallation `json:"items"`
 }
 
-func init() {
-	SchemeBuilder.Register(&CheInstallation{}, &CheInstallationList{})
-}
+// func init() {
+// 	SchemeBuilder.Register(&CheInstallation{}, &CheInstallationList{})
+// }
